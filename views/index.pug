@@ -1,0 +1,62 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+    title persoNote
+    link(href="./styles/style.css", rel="stylesheet")
+    script(src='./script.js')
+    script(src="https://cdn.tiny.cloud/1/7pgbw05htgj2w2l4vnssmupxu04gs3pa70x9ogml4nb4w2e3/tinymce/5/tinymce.min.js" referrerpolicy="origin")
+    script.
+      tinymce.init({selector:'#mytextarea'})
+body.font-mono
+
+//Login page
+.w-full.h-screen.flex(id="loginPage")
+  img.object-cover.object-center.h-screen(src='https://images.unsplash.com/photo-1520076794559-6a1229412a42?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80' alt='background' class='w-7/12')
+  .bg-white.flex.flex-col.justify-center.items-center.shadow-lg(class='w-5/12')
+    h1.text-3xl.font-bold.text-black.mb-2 LOGIN
+    p.text-m.text-black.mb-2(id="passwordFail" style="display: none;") Wrong username or password
+    .text-center(class='w-1/2')
+      input.shadow-md.border.w-full.h-10.px-3.py-2.text-black.mb-3.rounded(type='text' name='username' placeholder='username' autocomplete='off' class='focus:outline-none focus:border-orange-500' id="usernameInput")
+      input.shadow-md.border.w-full.h-10.px-3.py-2.text-black.mb-3.rounded(type='password' name='password' placeholder='password' autocomplete='off' class='focus:outline-none focus:border-orange-500' id="passwordInput")
+      button.bg-white.text-black.px-3.py-1.rounded.text-lg.shadow(id="loginBtn") Log In
+
+//Notes 
+.bg-gray-50.w-screen.h-screen(class='sm:p-5' style="display: none;" id="notesPage")
+  .bg-white.border.border-gray-200.rounded.flex.h-full
+    // Position
+    .w-full.h-full(class='sm:w-1/2 md:w-1/3 lg:w-1/4')
+      // Banner
+      .border-b.border-gray-200.p-3.relative.flex.justify-between.space-x-6
+        button.flex.items-center.mx-auto.select-none.font-semibold(class='focus:outline-none')
+          | Your notes
+        button.bg-white.text-black.rounded.text-s.shadow(id="logoutBtn") Log out
+        button.bg-white.text-black.rounded.text-s.shadow(class="createNoteBtn") New note
+      //NotesList
+      each note in notes
+        //ListItems
+        button.flex.items-center.w-full.px-4.py-2.select-none(class='hover:bg-gray-100 focus:outline-none' class="listItem" value= note.id)
+          .transform.text-left(class='translate-y-0.5')
+            h3.leading-4(id="h3taggen")= note.noteName
+    //createNewNotePage
+    .hidden.border-l.border-gray-200.items-center.justify-center.text-center(class='sm:w-1/2 md:w-2/3 lg:w-3/4' style="display: flex;" id="newNoteTab")
+        .space-y-5
+          .border.border-black.rounded-full.inline-flex.p-5.items-center.justify-center
+            svg.transform.translate-y-1(height='52' viewBox='0 0 48 48' width='52')
+              path(d='M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l13.2 13c.5.4 1.1.6 1.7.3l16.6-8c.7-.3 1.6-.1 2 .5.4.7.2 1.6-.5 2l-15.6 9.9c-.5.3-.8 1-.7 1.6l4.6 19c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.5-.5.5-1.1.2-1.6z')
+          div(class='space-y-0.5')
+            h1.font-semibold.text-xl Create a new note
+          button.bg-white.text-black.px-3.py-1.rounded.text-lg.shadow(class="createNoteBtn") Create note
+    //tinyMCE      
+    .hidden.border-l.border-gray-200.items-center.justify-center.text-center(class='sm:w-1/2 md:w-2/3 lg:w-3/4' id="textArea")
+      div.block(id="displayText")
+      button.bg-white.text-black.px-2.py-1.rounded.text-m.shadow.mt-3.block.absolute.bottom-10.right-10(id="editNote") Edit note
+      div(id="contentManager" style="display: none;")
+      form(method="post" style="display: none" id="textareaForm")
+        input.shadow-md.border.w-80.h-10.px-3.py-2.text-black.mb-3.rounded.absolute.top-10(type='text' placeholder='document name' autocomplete='off' class='focus:outline-none focus:border-orange-500' id="documentNameInput")
+        textarea(id="mytextarea" name="mytextarea")
+        button.bg-white.text-black.px-2.py-1.rounded.text-m.shadow.mt-3.block.absolute.bottom-10.right-10(id="editNoteTinyMce") edit note
+        button.bg-white.text-black.px-2.py-1.rounded.text-m.shadow.mt-3.block.absolute.bottom-10.right-10(id="saveNote") save note
+
